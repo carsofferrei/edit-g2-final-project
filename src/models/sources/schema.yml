@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: dbt_group_project
+    database: data-eng-dev-437916
+    schema: data_eng_project_group2  
+    tables:
+      - name: api_weather_forecast
+        description: "Table containing weather forecast data from the API."
+
+  - name: de_project_teachers
+    database: data-eng-dev-437916
+    schema: de_project_teachers  
+    tables:
+      - name: historical_stop_times
+        description: "Table containing historical stop times data for teachers' project."

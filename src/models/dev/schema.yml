@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: dev_historical_data
+    description: >
+      Information about each stop and vehicle current status.
+    columns:
+      - name: trip_id
+        description: Unique identifier of each trip.
+        data_type: text
+        data_tests:
+          - not_null
+          - unique
+      - name: stop_id
+        description: Unique identifier of each stop.
+        data_type: numeric
+        data_tests:
+          - not_null
+      - name: line_id
+        description: Unique identifier of each line.
+        data_type: numeric
+        data_tests:
+          - not_null
+      - name: current_status
+        description: Unique identifier of each status.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: timestamp
+        description: Unique identifier of each moment when trip is being analysed.
+        data_type: text
+        data_tests:
+          - not_null

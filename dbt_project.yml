@@ -21,11 +21,17 @@ vars:
   truncate_timespan_to: "{{ current_timestamp() }}"
   "dbt_date:time_zone": "Europe/Lisbon"
 
+
 models:
   edit_de_project:
-    staging:
+    sources:
+      +schema: sources
       +materialized: view
-    marts:
+    dev:
+      +schema: dev
+      +materialized: view
+    staging:
+      +schema: staging
       +materialized: table
 
 saved-queries:
