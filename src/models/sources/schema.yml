@@ -5,8 +5,16 @@ sources:
     database: data-eng-dev-437916
     schema: data_eng_project_group2  
     tables:
-      - name: api_weather_forecast
-        description: "Table containing weather forecast data from the API."
+      - name: api_alerts
+        description: "Table containing Service Alerts that allows to understand when a service could have perturbations"
+      - name: api_lines
+        description: "Table containing information for lines. Each line can have several routes and patterns, and serves a set of municipalities and localities."
+      - name: api_municipalities
+        description: "Table containing information for municipalities in the Lisbon metropolitan area, as well as adjacent municipalities where Carris Metropolitana also has service."
+      - name: api_routes
+        description: "Table containing information for routes. Each route can have at most two patterns, and serves a set of municipalities and localities."
+      - name: api_stops
+        description: "Table containing static information for all stops, as well as associated lines, routes and patterns that use each stop."
 
   - name: de_project_teachers
     database: data-eng-dev-437916
