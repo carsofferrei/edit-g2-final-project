@@ -103,8 +103,11 @@ WITH API_STOP AS (
 )
 
 SELECT  
-    trip_id
+    AUX_FINAL.trip_id
     , line_id
+    , direction_id
+    , CASE WHEN direction_id = 0 THEN 'outbound travel' ELSE 'inbound travel' END AS direction_desc
+    , route_id
     , trip_dat
     , trip_stops
     , trip_total_distance_km
@@ -114,3 +117,5 @@ SELECT
             ELSE NULL
             END, 3) AS trip_avg_speed
 FROM AUX_FINAL
+LEFT JOIN {{ source('data_eng_project_group2', 'api_trips') }} B
+ON AUX_FINAL.trip_id = B.trip_id

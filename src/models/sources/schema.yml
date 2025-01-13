@@ -15,6 +15,10 @@ sources:
         description: "Table containing information for routes. Each route can have at most two patterns, and serves a set of municipalities and localities."
       - name: api_stops
         description: "Table containing static information for all stops, as well as associated lines, routes and patterns that use each stop."
+      - name: api_trips
+        description: "Table containing static information for all trips, as well as associated routes and service_id."
+
+
 
   - name: de_project_teachers
     database: data-eng-dev-437916
