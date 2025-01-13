@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: dbt_group_project
+  - name: data_eng_project_group2
     database: data-eng-dev-437916
     schema: data_eng_project_group2  
     tables:
