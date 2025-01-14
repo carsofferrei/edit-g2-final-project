@@ -125,3 +125,76 @@ models:
         description: End date of the year.
       - name: ingested_at
         description: Timestamp when the data was ingested.
+  - name: dim_lines
+    columns:
+      - name: trip_id
+        description: Identifies a trip.
+        data_type: text
+        data_tests:
+          - not_null 
+      - name: line_id
+        description: Identifies a line.
+        data_type: numeric
+        data_tests:
+          - not_null
+      - name: line_name
+        description: Names the line.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: municip_id
+        description: Identifies a municipality.
+        data_type: numeric
+        data_tests:
+          - not_null
+      - name: municip_name
+        description: Names the municipality.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: route_id
+        description: Identifies a route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: route_name
+        description: Names the route.
+        data_type: text
+        data_tests:
+          - not_null
+  - name: dim_stops
+    columns:
+      - name: stop_id
+        description: Identifies the stop.
+        data_type: numeric
+        data_tests:
+          - not_null 
+      - name: stop_name
+        description: Names the bus stop.
+        data_type: text
+        data_tests:
+          - not_null 
+      - name: municipality_id
+        description: Identifies the municipality.
+        data_type: numeric
+        data_tests:
+          - not_null 
+      - name: municipality_name
+        description: Names the municipality.
+        data_type: text
+        data_tests:
+          - not_null 
+      - name: region_name
+        description: Names the region in which the municipality is located.
+        data_type: text
+        data_tests:
+          - not_null 
+      - name: operational_status
+        description: Informs if the stop is operational.
+        data_type: text
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - ACTIVE
+                - INACTIVE
