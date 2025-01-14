@@ -4,8 +4,6 @@
     )
 }}
 
-
-
 SELECT
     stop_id,
     name AS stop_name,
