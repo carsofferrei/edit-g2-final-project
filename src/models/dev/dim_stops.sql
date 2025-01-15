@@ -11,4 +11,4 @@ SELECT
     municipality_name,
     region_name,
     operational_status
-FROM {{ source('data_eng_project_group2', 'api_stops') }}
+FROM {{ source('data_eng_project_group2', 'api_stops_cleaned') }}

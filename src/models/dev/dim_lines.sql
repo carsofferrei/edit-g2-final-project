@@ -12,7 +12,7 @@ WITH
             id AS line_id,
             long_name AS line_name,
             route_id AS route_id
-        FROM {{ source('data_eng_project_group2', 'api_lines') }}, 
+        FROM {{ source('data_eng_project_group2', 'api_lines_cleaned') }}, 
             UNNEST(patterns) AS pattern_id,
             UNNEST(routes) AS route_id
     ),
@@ -24,7 +24,7 @@ WITH
             A.line_id,
             A.line_name
         FROM expanded_data A
-        LEFT JOIN {{ source('data_eng_project_group2', 'api_routes') }} B 
+        LEFT JOIN {{ source('data_eng_project_group2', 'api_routes_cleaned') }} B 
             ON A.route_id = B.id
     ),
 
@@ -37,7 +37,7 @@ WITH
             A.route_name,
             B.direction_id
         FROM routes_joined A
-        LEFT JOIN {{ source('data_eng_project_group2', 'api_trips') }} B 
+        LEFT JOIN {{ source('data_eng_project_group2', 'trips') }} B 
             ON A.route_id = B.route_id
     )
 

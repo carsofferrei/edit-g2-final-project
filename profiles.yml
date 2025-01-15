@@ -15,7 +15,7 @@ edit_de_project:
       type: bigquery
       method: oauth
       project: data-eng-dev-437916
-      dataset: data_eng_project_group2_rv
+      dataset: data_eng_project_group2
       job_execution_timeout_seconds: 300
       job_retries: 1
       location: EU

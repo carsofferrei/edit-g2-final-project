@@ -12,7 +12,7 @@ WITH API_STOP AS (
     , stop_id
     , CAST(line_id AS STRING) AS lines_id
   FROM 
-    {{ source('data_eng_project_group2', 'api_stops') }},
+    {{ source('data_eng_project_group2', 'api_stops_cleaned') }},
     UNNEST(lines) AS line_id
 )
 
@@ -102,20 +102,26 @@ WITH API_STOP AS (
   GROUP BY DISTANCE_FINAL.trip_id, DISTANCE_FINAL.line_id, DISTANCE_FINAL.trip_dat, HIST_STOP_TIMES_TRIP.trip_stops, TRUNC(TIMESTAMP_DIFF(end_trip, begin_trip, SECOND) / 60) 
 )
 
-SELECT  
+, DISTANCE_STOPS AS (
+  SELECT DISTINCT 
+    trip_id
+  , stop_id
+  , trip_dat
+FROM DISTANCE
+)
+
+SELECT  DISTINCT
     AUX_FINAL.trip_id
-    , line_id
-    , direction_id
-    , CASE WHEN direction_id = 0 THEN 'outbound travel' ELSE 'inbound travel' END AS direction_desc
-    , route_id
-    , trip_dat
-    , trip_stops
-    , trip_total_distance_km
-    , trip_total_time_min
+    , AUX_FINAL.line_id
+    , DISTANCE_STOPS.stop_id
+    , AUX_FINAL.trip_dat
+    , AUX_FINAL.trip_stops
+    , AUX_FINAL.trip_total_distance_km
+    , AUX_FINAL.trip_total_time_min
     , ROUND(CASE
-            WHEN trip_total_time_min > 0 THEN trip_total_distance_km / trip_total_time_min
+            WHEN AUX_FINAL.trip_total_time_min > 0 THEN AUX_FINAL.trip_total_distance_km / AUX_FINAL.trip_total_time_min
             ELSE NULL
             END, 3) AS trip_avg_speed
 FROM AUX_FINAL
-LEFT JOIN {{ source('data_eng_project_group2', 'api_trips') }} B
-ON AUX_FINAL.trip_id = B.trip_id
+LEFT JOIN DISTANCE_STOPS
+ON AUX_FINAL.trip_id = DISTANCE_STOPS.trip_id AND AUX_FINAL.trip_dat = DISTANCE_STOPS.trip_dat

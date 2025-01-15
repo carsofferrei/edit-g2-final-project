@@ -6,47 +6,42 @@ models:
       Information about each trip, 
     columns:
       - name: trip_id
-        description: XXXXXXXX
-        data_type: text
-        data_tests:
-          - not_null
-      - name: stop_id
-        description: XXXXXXXX
+        description: Unique identifier for each trip.
         data_type: numeric
         data_tests:
           - not_null
       - name: line_id
-        description: XXXXXXXX
+        description: Identify the line for each trip.
         data_type: numeric
         data_tests:
           - not_null
-      - name: route_id
-        description: XXXXXXXX
+      - name: stop_id
+        description: Identify the stops made for each trip.
         data_type: numeric
         data_tests:
           - not_null
-      - name: direction_id
-        description: XXXXXXXX
+      - name: trip_dat
+        description: Date ('YYYY-MM-DD') on which the trip took place. 
         data_type: numeric
         data_tests:
           - not_null
-      - name: date
-        description: XXXXXXXX
+      - name: trip_stops
+        description: Number of stops for each trip.
         data_type: numeric
         data_tests:
           - not_null
-      - name: average_velocity
-        description: XXXXXXXX
+      - name: trip_total_distance_km
+        description: Total distance for each trip, in kilometers.
         data_type: numeric
         data_tests:
           - not_null
-      - name: average_distance
-        description: XXXXXXXX
+      - name: trip_total_time_min
+        description: Total time for each trip, in minutes.
         data_type: numeric
         data_tests:
           - not_null
-      - name: average_time
-        description: XXXXXXXX
+      - name: trip_avg_speed
+        description: Average velocity for each trip, in kilometers per minutes.
         data_type: numeric
         data_tests:
           - not_null
