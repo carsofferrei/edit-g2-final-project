@@ -20,10 +20,10 @@ SELECT
 , CASE WHEN B.direction_id = 0 THEN 'outbound travel' ELSE 'inbound travel' END AS direction_name
 , C.stop_name
 , C.municipality_name
-, ROUND(SUM(A.trip_stops)/ COUNT(DISTINCT A.trip_id), 3) AS avg_trip_stops
-, ROUND(SUM(A.trip_total_distance_km)/ COUNT(DISTINCT A.trip_id), 3) AS avg_total_distance_km
-, ROUND(SUM(A.trip_total_time_min)/ COUNT(DISTINCT A.trip_id), 3) AS avg_total_time_min
-, ROUND(SUM(A.trip_avg_speed)/ COUNT(DISTINCT A.trip_id), 3) AS avg_speed
+, ROUND(AVG(A.trip_stops), 3) AS avg_trip_stops
+, ROUND(AVG(A.trip_total_distance_km), 3) AS avg_total_distance_km
+, ROUND(AVG(A.trip_total_time_min), 3) AS avg_total_time_min
+, ROUND(AVG(A.trip_avg_speed), 3) AS avg_speed
 FROM {{ ref('fact_historical_trips') }} A
 INNER JOIN {{ ref('dim_lines') }} B
 ON A.trip_id = B.trip_id
