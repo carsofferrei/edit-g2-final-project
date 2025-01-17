@@ -20,7 +20,7 @@ models:
         data_type: numeric
         data_tests:
           - not_null
-      - name: trip_dat
+      - name: trip_date
         description: Date ('YYYY-MM-DD') on which the trip took place. 
         data_type: numeric
         data_tests:
@@ -137,16 +137,6 @@ models:
         data_type: text
         data_tests:
           - not_null
-      - name: municip_id
-        description: Identifies a municipality.
-        data_type: numeric
-        data_tests:
-          - not_null
-      - name: municip_name
-        description: Names the municipality.
-        data_type: text
-        data_tests:
-          - not_null
       - name: route_id
         description: Identifies a route.
         data_type: text
@@ -157,6 +147,15 @@ models:
         data_type: text
         data_tests:
           - not_null
+      - name: direction_id
+        description: Indicates the direction of travel for a trip. 
+        data_type: integer
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - 0
+                - 1
   - name: dim_stops
     columns:
       - name: stop_id

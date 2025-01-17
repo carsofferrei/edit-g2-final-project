@@ -19,8 +19,8 @@ WITH API_STOP AS (
 , HIST_STOP_TIMES AS (
   SELECT
       *
-    , TIMESTAMP_SECONDS(timestamp) AS timestamp_UTC
-    , DATE(TIMESTAMP_SECONDS(timestamp)) AS trip_dat
+    , timestamp AS timestamp_UTC
+    , DATE(timestamp) AS trip_date
   FROM 
       {{ source('de_project_teachers', 'historical_stop_times') }}
 )
@@ -43,7 +43,7 @@ WITH API_STOP AS (
     , line_id
     , stop_sequence
     , current_status
-    , trip_dat
+    , trip_date
     , lat
     , lon
     , LAG(lat) OVER (PARTITION BY trip_id ORDER BY stop_sequence) AS prev_lat
@@ -58,7 +58,7 @@ WITH API_STOP AS (
       , stop_id
       , line_id
       , current_status
-      , trip_dat
+      , trip_date
       , ROUND(
         CASE 
           WHEN prev_lat IS NOT NULL AND prev_lon IS NOT NULL 
@@ -80,33 +80,33 @@ WITH API_STOP AS (
   SELECT
     line_id
     , trip_id
-    , trip_dat
+    , trip_date
     , MIN(timestamp_UTC) AS begin_trip
     , MAX(timestamp_UTC) AS end_trip
     , COUNT(DISTINCT stop_id) AS trip_stops
   FROM HIST_STOP_TIMES
-  GROUP BY line_id, trip_id, trip_dat
+  GROUP BY line_id, trip_id, trip_date
 )
 
 , AUX_FINAL AS (
   SELECT 
       DISTANCE_FINAL.trip_id
     , DISTANCE_FINAL.line_id
-    , DISTANCE_FINAL.trip_dat
+    , DISTANCE_FINAL.trip_date
     , HIST_STOP_TIMES_TRIP.trip_stops
     , MAX(cumulative_distance_km) AS trip_total_distance_km
     , TRUNC(TIMESTAMP_DIFF(end_trip, begin_trip, SECOND) / 60) AS trip_total_time_min
   FROM DISTANCE_FINAL
   LEFT JOIN HIST_STOP_TIMES_TRIP
   ON DISTANCE_FINAL.trip_id = HIST_STOP_TIMES_TRIP.trip_id AND DISTANCE_FINAL.line_id = HIST_STOP_TIMES_TRIP.line_id
-  GROUP BY DISTANCE_FINAL.trip_id, DISTANCE_FINAL.line_id, DISTANCE_FINAL.trip_dat, HIST_STOP_TIMES_TRIP.trip_stops, TRUNC(TIMESTAMP_DIFF(end_trip, begin_trip, SECOND) / 60) 
+  GROUP BY DISTANCE_FINAL.trip_id, DISTANCE_FINAL.line_id, DISTANCE_FINAL.trip_date, HIST_STOP_TIMES_TRIP.trip_stops, TRUNC(TIMESTAMP_DIFF(end_trip, begin_trip, SECOND) / 60) 
 )
 
 , DISTANCE_STOPS AS (
   SELECT DISTINCT 
     trip_id
   , stop_id
-  , trip_dat
+  , trip_date
 FROM DISTANCE
 )
 
@@ -114,7 +114,7 @@ SELECT  DISTINCT
     AUX_FINAL.trip_id
     , AUX_FINAL.line_id
     , DISTANCE_STOPS.stop_id
-    , AUX_FINAL.trip_dat
+    , AUX_FINAL.trip_date
     , AUX_FINAL.trip_stops
     , AUX_FINAL.trip_total_distance_km
     , AUX_FINAL.trip_total_time_min
@@ -124,4 +124,4 @@ SELECT  DISTINCT
             END, 3) AS trip_avg_speed
 FROM AUX_FINAL
 LEFT JOIN DISTANCE_STOPS
-ON AUX_FINAL.trip_id = DISTANCE_STOPS.trip_id AND AUX_FINAL.trip_dat = DISTANCE_STOPS.trip_dat
+ON AUX_FINAL.trip_id = DISTANCE_STOPS.trip_id AND AUX_FINAL.trip_date = DISTANCE_STOPS.trip_date

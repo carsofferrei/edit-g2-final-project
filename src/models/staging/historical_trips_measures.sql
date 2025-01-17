@@ -14,7 +14,7 @@ WHERE UPPER(operational_status) LIKE 'ACTIVE'
 
 
 SELECT
-  A.trip_dat
+  A.trip_date
 , B.line_name
 , B.route_name
 , CASE WHEN B.direction_id = 0 THEN 'outbound travel' ELSE 'inbound travel' END AS direction_name
@@ -29,7 +29,7 @@ INNER JOIN {{ ref('dim_lines') }} B
 ON A.trip_id = B.trip_id
 LEFT JOIN DIM_STOPS C
 ON A.stop_id = C.stop_id
-GROUP BY A.trip_dat
+GROUP BY A.trip_date
 , B.line_name
 , B.route_name
 , CASE WHEN B.direction_id = 0 THEN 'outbound travel' ELSE 'inbound travel' END

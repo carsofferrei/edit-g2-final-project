@@ -7,13 +7,12 @@
 
 
 WITH 
-    expanded_data AS ( -- Expands the arrays MUNICIPALITIES and ROUTES
+    expanded_data AS ( -- Expands the arrays of ROUTES
         SELECT DISTINCT
             id AS line_id,
             long_name AS line_name,
             route_id AS route_id
         FROM {{ source('data_eng_project_group2', 'api_lines_cleaned') }}, 
-            UNNEST(patterns) AS pattern_id,
             UNNEST(routes) AS route_id
     ),
 
