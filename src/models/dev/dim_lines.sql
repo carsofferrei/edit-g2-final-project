@@ -41,4 +41,5 @@ WITH
     )
 
 SELECT *
+, current_timestamp as ingested_at
 FROM final_result

@@ -12,7 +12,7 @@ WHERE UPPER(operational_status) LIKE 'ACTIVE'
 
 )
 
-
+, TAB_FINAL AS (
 SELECT
   A.trip_date
 , B.line_name
@@ -20,7 +20,7 @@ SELECT
 , CASE WHEN B.direction_id = 0 THEN 'outbound travel' ELSE 'inbound travel' END AS direction_name
 , C.stop_name
 , C.municipality_name
-, ROUND(AVG(A.trip_stops), 3) AS avg_trip_stops
+, ROUND(AVG(A.trip_stops), 0) AS avg_trip_stops
 , ROUND(AVG(A.trip_total_distance_km), 3) AS avg_total_distance_km
 , ROUND(AVG(A.trip_total_time_min), 3) AS avg_total_time_min
 , ROUND(AVG(A.trip_avg_speed), 3) AS avg_speed
@@ -35,3 +35,8 @@ GROUP BY A.trip_date
 , CASE WHEN B.direction_id = 0 THEN 'outbound travel' ELSE 'inbound travel' END
 , C.stop_name
 , C.municipality_name
+)
+
+SELECT *
+, current_timestamp as ingested_at
+FROM TAB_FINAL

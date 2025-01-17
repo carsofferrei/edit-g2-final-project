@@ -122,6 +122,7 @@ SELECT  DISTINCT
             WHEN AUX_FINAL.trip_total_time_min > 0 THEN AUX_FINAL.trip_total_distance_km / AUX_FINAL.trip_total_time_min
             ELSE NULL
             END, 3) AS trip_avg_speed
+    , current_timestamp as ingested_at
 FROM AUX_FINAL
 LEFT JOIN DISTANCE_STOPS
 ON AUX_FINAL.trip_id = DISTANCE_STOPS.trip_id AND AUX_FINAL.trip_date = DISTANCE_STOPS.trip_date
