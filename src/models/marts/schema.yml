@@ -120,7 +120,7 @@ models:
         description: End date of the year.
       - name: ingested_at
         description: Timestamp when the data was ingested.
-  - name: dim_lines
+  - name: dim_trips
     columns:
       - name: trip_id
         description: Identifies a trip.

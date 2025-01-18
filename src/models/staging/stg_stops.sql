@@ -10,6 +10,5 @@ SELECT
     municipality_id,
     municipality_name,
     region_name,
-    operational_status,
-    current_timestamp as ingested_at
+    operational_status
 FROM {{ source('data_eng_project_group2', 'api_stops_cleaned') }}

@@ -15,6 +15,10 @@ sources:
         description: "Table containing static information for all stops, as well as associated lines, routes and patterns that use each stop."
       - name: trips
         description: "Table containing static information for all trips, as well as associated routes and service_id."
+      - name: stop_times
+        description: "Table containing stop times for each planned trip."
+      - name: calendar_dates
+        description: "Table containg the days that each service is working."
 
 
 

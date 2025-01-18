@@ -24,14 +24,11 @@ vars:
 
 models:
   edit_de_project:
-    sources:
-      +schema: sources
-      +materialized: view
-    dev:
-      +schema: dev
-      +materialized: view
     staging:
       +schema: staging
+      +materialized: view
+    marts:
+      +schema: marts
       +materialized: table
 
 saved-queries:
