@@ -138,40 +138,21 @@ models:
         data_type: text
         data_tests:
           - not_null
-      - name: municipality_id
-        description: Identifies the municipality.
+      - name: municipalities
+        description: Array containing municipality_id and municipality_name.
         data_type: text
         data_tests:
           - not_null 
-      - name: municipality_name
-        description: Names the municipality.
-        data_type: text
-        data_tests:
-          - not_null
       - name: route_name
         description: Names the route.
         data_type: text
         data_tests:
           - not_null
-      - name: stop_id
-        description: Identifies the stop.
+      - name: stops
+        description: Array containing stop_id, stop_name, region_name and soperational_status.
         data_type: text
         data_tests:
           - not_null 
-      - name: stop_name
-        description: Names the bus stop.
-        data_type: text
-        data_tests:
-          - not_null
-      - name: region_name
-        description: Names the region in which the municipality is located.
-        data_type: text
-        data_tests: []
-      - name: stop_operational_status
-        description: Informs the operational status of the stop.
-        data_type: text
-        data_tests:
-          - not_null
       - name: ingested_at
         description: Timestamp indicating when the record was ingested.
         data_type: timestamp
@@ -222,6 +203,38 @@ models:
                 - Outbound Travel
                 - Inbound Travel
                 - N/A
+
+  - name: dim_weather
+    description: >
+      Dimension table containg weather information for each day in Lisbon.
+    columns:
+      - name: weather_date
+        description: Day of weather information.
+        data_type: date
+        data_tests:
+          - not_null
+      - name: min_temperature
+        description: Minimum temperature information.
+        data_type: float
+        data_tests:
+          - not_null
+      - name: max_temperature
+        description: Maximum temperature information.
+        data_type: float
+        data_tests:
+          - not_null
+      - name: wind_direction
+        description: Information about wind direction.
+        data_type: text
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['S', 'N', 'SE', 'E', 'W', 'NE', 'SW', 'NW']
+      - name: rain_probability
+        description: Information about rain probability.
+        data_type: integer
+        data_tests:
+          - not_null
 
   - name: fact_historical_trips
     description: >
