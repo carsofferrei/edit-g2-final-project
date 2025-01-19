@@ -7,8 +7,9 @@
 {% set surrogate_key_columns = ['route_id'] %}
 
 WITH TRIPS AS (
-    SELECT trip_id
+    SELECT sk_trip
     , {{ dbt_utils.generate_surrogate_key(surrogate_key_columns) }} as sk_route
+    , trip_id 
     , service_id
     , direction_name
 FROM {{ ref('stg_trips') }}

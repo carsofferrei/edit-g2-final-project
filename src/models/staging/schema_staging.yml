@@ -1,0 +1,178 @@
+version: 2
+
+models:
+  - name: stg_calendar_dates
+    description: >
+      explicitly activates or disables service by date
+    columns:
+      - name: service_id
+        description: Identifies a set of dates when service is available for one or more routes.
+        data_type: text
+        data_tests: []
+      - name: day_type
+        description: Indicates the type of day (e.g., weekday, weekend, holiday).
+        data_type: integer
+        data_tests: []
+      - name: exception_type
+        description: >
+          Indicates whether service is available on the date specified in the date field.
+          1 - Service has been added for the specified date.
+          2 - Service has been removed for the specified date.
+        data_type: integer
+        data_tests: []
+      - name: holiday
+        description: Indicates if the date is a holiday.
+        data_type: integer
+        data_tests: []
+      - name: period
+        description: Identifies a period in which the service_id operates in.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: period_name
+        description: Name of the period the service_id operates in.
+        data_type: text
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['Período Escolar', 'Férias Escolares', 'Verão', 'N/A']
+
+  - name: stg_lines
+    description: Information about each line.
+    columns:
+      - name: line_id
+        description: Unique identifier of each line.
+        data_type: numeric
+        data_tests:
+          - not_null
+      - name: line_name
+        description: Name of each line.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: route_id
+        description: Unique identifier for the route.
+        data_type: text
+        data_tests:
+          - not_null
+
+  - name: stg_routes
+    description: Information about each route.
+    columns:
+      - name: route_id
+        description: Unique identifier for the route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: route_name
+        description: Names the route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: line_id
+        description: Identifies a line.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: municipality_id
+        description: Identifies the municipality.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: municipality_name
+        description: Names the municipality. 
+        data_type: text
+        data_tests:
+          - not_null
+
+  - name: stg_stop_times
+    description: Contains details about stop times and sequences for specific trips.
+    columns:
+      - name: trip_id
+        description: Unique identifier for the trip.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: stop_id
+        description: Unique identifier for the stop.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: stop_sequence
+        description: Sequence order of the stop within the trip.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: distance_km
+        description: Distance in kilometers from the stop.
+        data_type: numeric
+        data_tests: []
+
+  - name: stg_stops
+    description: Provides information about stops, including location details and operational status.
+    columns:
+      - name: stop_id
+        description: Unique identifier for the stop.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: stop_name
+        description: Name of the stop.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: municipality_id
+        description: Unique identifier for the municipality.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: municipality_name
+        description: Name of the municipality.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: region_name
+        description: Name of the region where the stop is located.
+        data_type: text
+        data_tests: []
+      - name: operational_status
+        description: Informs the operational status of the stop.
+        data_type: text
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['ACTIVE','INACTIVE','PROVISIONAL','VOIDED','SEASONAL']
+
+  - name: stg_trips
+    description: Contains details about trips, linking routes to services and directions.
+    columns:
+      - name: trip_id
+        description: Unique identifier for the trip.
+        data_type: text
+        data_tests:
+          - not_null
+          - unique
+      - name: route_id
+        description: Identifies the associated route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: service_id
+        description: Identifies for the service.
+        data_type: text
+        data_tests: []
+      - name: direction_id
+        description: Identifies for the direction.
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: direction_name
+        description: Name of the direction ('Outbound Travel' or 'Inbound Travel').
+        data_type: text
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Outbound Travel
+                - Inbound Travel
+                - N/A

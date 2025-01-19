@@ -1,0 +1,254 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: Dimension table about the date.
+    columns:
+      - name: date_day
+        description: Date.
+      - name: prior_date_day
+        description: Date of the previous day.
+      - name: next_date_day
+        description: Date of the next day.
+      - name: prior_year_date_day
+        description: Date of the same day in the previous year.
+      - name: prior_year_over_year_date_day
+        description: Date of the same day in the year before the previous year.
+      - name: day_of_week
+        description: Day of the week.
+      - name: day_of_week_name
+        description: Name of the day of the week.
+      - name: day_of_week_name_short
+        description: Short name of the day of the week.
+      - name: day_of_month
+        description: Day of the month.
+      - name: day_of_year
+        description: Day of the year.
+      - name: week_start_date
+        description: Start date of the week.
+      - name: week_end_date
+        description: End date of the week.
+      - name: prior_year_week_start_date
+        description: Start date of the week in the previous year.
+      - name: prior_year_week_end_date
+        description: End date of the week in the previous year.
+      - name: week_of_year
+        description: Week of the year.
+      - name: iso_week_start_date
+        description: Start date of the ISO week.
+      - name: iso_week_end_date
+        description: End date of the ISO week.
+      - name: prior_year_iso_week_start_date
+        description: Start date of the ISO week in the previous year.
+      - name: prior_year_iso_week_end_date
+        description: End date of the ISO week in the previous year.
+      - name: iso_week_of_year
+        description: ISO week of the year.
+      - name: prior_year_week_of_year
+        description: Week of the year in the previous year.
+      - name: prior_year_iso_week_of_year
+        description: ISO week of the year in the previous year.
+      - name: month_of_year
+        description: Month of the year.
+      - name: month_name
+        description: Name of the month.
+      - name: month_name_short
+        description: Short name of the month.
+      - name: month_start_date
+        description: Start date of the month.
+      - name: month_end_date
+        description: End date of the month.
+      - name: prior_year_month_start_date
+        description: Start date of the month in the previous year.
+      - name: prior_year_month_end_date
+        description: End date of the month in the previous year.
+      - name: quarter_of_year
+        description: Quarter of the year.
+      - name: quarter_start_date
+        description: Start date of the quarter.
+      - name: quarter_end_date
+        description: End date of the quarter.
+      - name: year_number
+        description: Year number.
+      - name: year_start_date
+        description: Start date of the year.
+      - name: year_end_date
+        description: End date of the year.
+
+  - name: dim_calendar_dates
+    description: >
+      Dimension table containing calendar dates and associated metadata, including service details, day types, and holidays.
+    columns:
+      - name: sk_date
+        description: Surrogate key for the date.
+        data_type: text
+        data_tests:
+          - unique
+      - name: date
+        description: Calendar date in YYYY-MM-DD format.
+        data_type: date
+        data_tests: []
+      - name: service_id
+        description: Identifies a set of dates when service is available for one or more routes.
+        data_type: text
+        data_tests: []
+      - name: day_type
+        description: Indicates the type of day (e.g., weekday, weekend, holiday).
+        data_type: integer
+        data_tests: []
+      - name: exception_type
+        description: >
+          Indicates whether service is available on the date specified in the date field.
+          1 - Service has been added for the specified date.
+          2 - Service has been removed for the specified date.
+        data_type: integer
+        data_tests: []
+      - name: holiday
+        description: Indicates if the date is a holiday.
+        data_type: integer
+        data_tests: []
+      - name: period
+        description: Identifies a period in which the service_id operates in.
+        data_type: integer
+        data_tests: []
+      - name: period_name
+        description: Name of the period the service_id operates in.
+        data_type: text
+        data_tests:
+          - accepted_values:
+              values: ['Período Escolar', 'Férias Escolares', 'Verão', 'N/A']
+
+  - name: dim_routes
+    description: >
+      Dimension table containing route details, including identifiers, names, and associated stops.
+    columns:
+      - name: sk_route
+        description: Surrogate key for the route.
+        data_type: text
+        data_tests:
+          - not_null
+          - unique
+      - name: route_id
+        description: Unique identifier for the route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: line_id
+        description: Identifies a line.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: municipality_id
+        description: Identifies the municipality.
+        data_type: text
+        data_tests:
+          - not_null 
+      - name: municipality_name
+        description: Names the municipality.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: route_name
+        description: Names the route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: stop_id
+        description: Identifies the stop.
+        data_type: text
+        data_tests:
+          - not_null 
+      - name: stop_name
+        description: Names the bus stop.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: region_name
+        description: Names the region in which the municipality is located.
+        data_type: text
+        data_tests: []
+      - name: stop_operational_status
+        description: Informs the operational status of the stop.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: ingested_at
+        description: Timestamp indicating when the record was ingested.
+        data_type: timestamp
+        data_tests: []
+
+  - name: dim_trips
+    description: >
+      Dimension table containing trip details, linking services, lines, and routes.
+    columns:
+      - name: sk_trip
+        description: Surrogate key for the trip.
+        data_type: string
+        data_tests: []
+      - name: trip_id
+        description: Unique identifier for the trip.
+        data_type: text
+        data_tests: []
+      - name: service_id
+        description: Identifier for the service associated with the trip.
+        data_type: text
+        data_tests: []
+      - name: line_id
+        description: Identifies a line.
+        data_type: text
+        data_tests: []
+      - name: line_name
+        description: Name of each line.
+        data_type: text
+        data_tests: []
+      - name: route_id
+        description: Identifies a route.
+        data_type: text
+        data_tests: []
+      - name: route_name
+        description: Name of each route.
+        data_type: text
+        data_tests: []
+      - name: direction_id
+        description: Indicates the direction of travel for a trip. 
+        data_type: integer
+        data_tests: []
+
+  - name: fact_historical_trips
+    description: >
+      Fact table capturing historical trip data, including distances, stops, and times.
+    columns:
+      - name: sk_trip
+        description: Surrogate key for the trip.
+        data_type: string
+        data_tests: []
+      - name: sk_route
+        description: Surrogate key for the associated route (foreign key to `dim_routes`).
+        data_type: text
+        data_tests: []
+      - name: trip_id
+        description: Identifier for the trip.
+        data_type: text
+        data_tests: []
+      - name: trip_date
+        description: Date ('YYYY-MM-DD') on which the trip took place. 
+        data_type: date
+        data_tests: []
+      - name: total_trip_distance
+        description: Total distance covered by the trip, in kilometers.
+        data_type: numeric
+        data_tests: []
+      - name: total_trip_stops
+        description: Total number of stops covered during the trip.
+        data_type: integer
+        data_tests: []
+      - name: total_trip_time
+        description: Total time for each trip, in minutes.
+        data_type: numeric
+        data_tests: []
+      - name: average_trip_speed
+        description: Average velocity for each trip, in kilometers per minutes.
+        data_type: numeric
+        data_tests: []
+
+
