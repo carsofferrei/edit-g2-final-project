@@ -4,11 +4,10 @@
     )
 }}
 
-{% set surrogate_key_columns = ['route_id'] %}
+{% set surrogate_key_columns = ['A.route_id'] %}
 
-SELECT DISTINCT
-{{ dbt_utils.generate_surrogate_key(surrogate_key_columns) }} as sk_route
-  , A.route_id
+SELECT {{ dbt_utils.generate_surrogate_key(surrogate_key_columns) }} as sk_route,
+   A.route_id
   , A.line_id
   , ARRAY_AGG(CAST(A.municipality_id AS STRING)) as municipality_id
   , ARRAY_AGG(A.municipality_name) as municipality_name
@@ -20,8 +19,9 @@ SELECT DISTINCT
   , current_timestamp as ingested_at
 FROM {{ ref('stg_routes') }} A
 LEFT JOIN {{ ref('stg_stops') }} B
-ON A.municipality_id = B.municipality_id
-GROUP BY {{ dbt_utils.generate_surrogate_key(surrogate_key_columns) }}
+  ON A.route_id = B.route_id 
+GROUP BY 
+  {{ dbt_utils.generate_surrogate_key(surrogate_key_columns) }}
   , A.route_id
   , A.line_id
   , A.route_name

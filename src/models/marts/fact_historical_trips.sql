@@ -4,11 +4,10 @@
     )
 }}
 
-{% set surrogate_key_columns = ['route_id'] %}
 
 WITH TRIPS AS (
-    SELECT sk_trip
-    , {{ dbt_utils.generate_surrogate_key(surrogate_key_columns) }} as sk_route
+    SELECT {{ dbt_utils.generate_surrogate_key(['trip_id']) }} as sk_trip
+    , {{ dbt_utils.generate_surrogate_key(['route_id']) }} as sk_route
     , trip_id 
     , service_id
     , direction_name
@@ -35,9 +34,10 @@ GROUP BY trip_id
 
 
 SELECT DISTINCT 
-  STOP_TIMES.trip_id
-, COALESCE(HIST_STOP_TIMES.trip_date, dates.date) AS trip_date
+  TRIPS.sk_trip
 , TRIPS.sk_route
+, STOP_TIMES.trip_id
+, COALESCE(HIST_STOP_TIMES.trip_date, dates.date) AS trip_date
 , STOP_TIMES.total_trip_distance
 , STOP_TIMES.total_trip_stops
 , TRUNC(TIMESTAMP_DIFF(HIST_STOP_TIMES.end_trip, HIST_STOP_TIMES.start_trip, SECOND) / 60) AS total_trip_time

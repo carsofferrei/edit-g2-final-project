@@ -131,6 +131,11 @@ models:
         data_type: text
         data_tests:
           - not_null
+      - name: route_id
+        description: Unique identifier for the route.
+        data_type: text
+        data_tests:
+          - not_null
       - name: region_name
         description: Name of the region where the stop is located.
         data_type: text
