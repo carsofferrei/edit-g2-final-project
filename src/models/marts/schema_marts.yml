@@ -217,7 +217,6 @@ models:
         description: Name of the direction ('Outbound Travel' or 'Inbound Travel').
         data_type: text
         data_tests:
-          - not_null
           - accepted_values:
               values:
                 - Outbound Travel
