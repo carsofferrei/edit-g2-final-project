@@ -27,7 +27,8 @@ WITH routes_joined AS (
             A.line_name,
             A.route_id,
             A.route_name,
-            B.direction_id
+            B.direction_id,
+            B.direction_name
         FROM routes_joined A
         LEFT JOIN {{ ref('stg_trips') }} B 
             ON A.route_id = B.route_id

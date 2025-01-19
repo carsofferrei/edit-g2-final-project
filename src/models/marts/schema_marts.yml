@@ -210,9 +210,19 @@ models:
         data_type: text
         data_tests: []
       - name: direction_id
-        description: Indicates the direction of travel for a trip. 
+        description: ID that indicates the direction of travel for a trip. 
         data_type: integer
         data_tests: []
+      - name: direction_name
+        description: Name of the direction ('Outbound Travel' or 'Inbound Travel').
+        data_type: text
+        data_tests:
+          - not_null
+          - accepted_values:
+              values:
+                - Outbound Travel
+                - Inbound Travel
+                - N/A
 
   - name: fact_historical_trips
     description: >
