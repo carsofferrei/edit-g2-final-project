@@ -20,7 +20,7 @@ SELECT {{ dbt_utils.generate_surrogate_key(surrogate_key_columns) }} as sk_route
             B.region_name AS region_name,
             B.operational_status AS stop_operational_status
    )) AS stops,
-   current_timestamp AS ingested_at
+   {{ var('truncate_timespan_to') }}  AS ingested_at
 FROM {{ ref('stg_routes') }} A
 LEFT JOIN {{ ref('stg_stops') }} B
   ON A.route_id = B.route_id
@@ -29,4 +29,4 @@ GROUP BY
   , A.route_id
   , A.line_id
   , A.route_name
-  , current_timestamp
+  , {{ var('truncate_timespan_to') }} 

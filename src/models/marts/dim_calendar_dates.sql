@@ -15,6 +15,7 @@ SELECT
 , holiday
 , period
 , period_name
+, {{ var('truncate_timespan_to') }}  as ingested_at
 FROM {{ ref('stg_calendar_dates') }}
 
 

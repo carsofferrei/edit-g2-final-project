@@ -31,6 +31,12 @@ models:
       +schema: marts
       +materialized: table
 
+snapshots:
+  edit_de_project:
+    snapshots:
+      +schema: snapshots
+      +materialized: table
+
 saved-queries:
   +cache:
     enabled: true

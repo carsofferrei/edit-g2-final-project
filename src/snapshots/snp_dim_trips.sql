@@ -1,7 +1,11 @@
+{% snapshot snp_dim_trips %}
 {{
   config(
-    materialized = 'table',
-  )
+     target_schema='data_eng_project_group2_marts',
+     unique_key='sk_trip',
+     strategy='check',
+     check_cols=['line_id', 'line_name', 'route_id', 'route_name', 'direction_id', 'direction_name']
+   )
 }}
 
 {% set surrogate_key_columns = ['trip_id'] %}
@@ -36,3 +40,6 @@ final_result AS (
 SELECT DISTINCT *
       , {{ var('truncate_timespan_to') }}  as ingested_at
 FROM final_result
+
+
+{% endsnapshot %}
