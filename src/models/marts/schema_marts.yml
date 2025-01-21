@@ -83,7 +83,7 @@ models:
         description: Surrogate key for the date.
         data_type: text
         data_tests:
-          - unique
+          - not_null
       - name: date
         description: Calendar date in YYYY-MM-DD format.
         data_type: date
@@ -165,35 +165,44 @@ models:
       - name: sk_trip
         description: Surrogate key for the trip.
         data_type: string
-        data_tests: []
+        data_tests:
+          - not_null
+          - unique
       - name: trip_id
         description: Unique identifier for the trip.
         data_type: text
-        data_tests: []
+        data_tests:
+          - not_null
       - name: service_id
         description: Identifier for the service associated with the trip.
         data_type: text
-        data_tests: []
+        data_tests:
+          - not_null
       - name: line_id
         description: Identifies a line.
         data_type: text
-        data_tests: []
+        data_tests:
+          - not_null
       - name: line_name
         description: Name of each line.
         data_type: text
-        data_tests: []
+        data_tests:
+          - not_null
       - name: route_id
         description: Identifies a route.
         data_type: text
-        data_tests: []
+        data_tests:
+          - not_null
       - name: route_name
         description: Name of each route.
         data_type: text
-        data_tests: []
+        data_tests:
+          - not_null
       - name: direction_id
         description: ID that indicates the direction of travel for a trip. 
         data_type: integer
-        data_tests: []
+        data_tests:
+          - not_null
       - name: direction_name
         description: Name of the direction ('Outbound Travel' or 'Inbound Travel').
         data_type: text
@@ -243,11 +252,13 @@ models:
       - name: sk_trip
         description: Surrogate key for the trip.
         data_type: string
-        data_tests: []
+        data_tests: 
+          - not_null
       - name: sk_route
         description: Surrogate key for the associated route (foreign key to `dim_routes`).
         data_type: text
-        data_tests: []
+        data_tests: 
+          - not_null
       - name: trip_id
         description: Identifier for the trip.
         data_type: text

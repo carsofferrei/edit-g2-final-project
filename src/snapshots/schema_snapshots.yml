@@ -1,0 +1,131 @@
+version: 2
+
+models:
+  - name: snp_dim_trips
+    description: >
+      Snapshot table created to track the historical changes and current state of trips data over time.
+    columns:
+      - name: sk_trip
+        description: Surrogate key for the trip.
+        data_type: string
+        data_tests:
+          - not_null
+      - name: trip_id
+        description: Unique identifier for the trip.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: service_id
+        description: Identifier for the service associated with the trip.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: line_id
+        description: Identifies a line.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: line_name
+        description: Name of each line.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: route_id
+        description: Identifies a route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: route_name
+        description: Name of each route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: direction_id
+        description: ID that indicates the direction of travel for a trip. 
+        data_type: integer
+        data_tests:
+          - not_null
+      - name: direction_name
+        description: Name of the direction ('Outbound Travel' or 'Inbound Travel').
+        data_type: text
+        data_tests:
+          - accepted_values:
+              values:
+                - Outbound Travel
+                - Inbound Travel
+                - N/A
+      - name: ingested_at
+        description: Timestamp indicating when the record was ingested.
+        data_type: timestamp
+        data_tests: []
+      - name: dbt_scd_id
+        description: DBT surrogate key to uniquely identify each version of a record.
+        data_type: text
+        data_tests: []
+      - name: dbt_updated_at
+        description: System-generated timestamp that tracks the last time a record was updated in the snapshot table.
+        data_type: timestamp
+        data_tests: []
+      - name: dbt_valid_from
+        description: Indicates when this specific version of the record became valid.
+        data_type: timestamp
+        data_tests: []
+      - name: dbt_valid_to
+        description: Indicates when this version of the record was superseded (or is NULL if it is the most current version).
+        data_type: timestamp
+        data_tests: []
+
+  - name: snp_dim_routes
+    description: >
+      Snapshot table created to track the historical changes and current state of routes data over time.
+    columns:
+      - name: sk_route
+        description: Surrogate key for the route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: route_id
+        description: Unique identifier for the route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: line_id
+        description: Identifies a line.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: municipalities
+        description: Array containing municipality_id and municipality_name.
+        data_type: text
+        data_tests:
+          - not_null 
+      - name: route_name
+        description: Names the route.
+        data_type: text
+        data_tests:
+          - not_null
+      - name: stops
+        description: Array containing stop_id, stop_name, region_name and soperational_status.
+        data_type: text
+        data_tests:
+          - not_null 
+      - name: ingested_at
+        description: Timestamp indicating when the record was ingested.
+        data_type: timestamp
+        data_tests: []
+      - name: dbt_scd_id
+        description: DBT surrogate key to uniquely identify each version of a record.
+        data_type: text
+        data_tests: []
+      - name: dbt_updated_at
+        description: System-generated timestamp that tracks the last time a record was updated in the snapshot table.
+        data_type: timestamp
+        data_tests: []
+      - name: dbt_valid_from
+        description: Indicates when this specific version of the record became valid.
+        data_type: timestamp
+        data_tests: []
+      - name: dbt_valid_to
+        description: Indicates when this version of the record was superseded (or is NULL if it is the most current version).
+        data_type: timestamp
+        data_tests: []
