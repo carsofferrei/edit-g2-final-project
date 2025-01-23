@@ -4,7 +4,7 @@
      target_schema='data_eng_project_group2_snapshots',
      unique_key='sk_route',
      strategy='check',
-     check_cols=['route_id', 'line_id', 'route_id', 'municipalities', 'route_name', 'stops']
+     check_cols=['route_id', 'municipalities', 'route_name', 'stops']
    )
 }}
 
