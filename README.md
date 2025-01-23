@@ -6,9 +6,9 @@ This project aim to have all the necessary code for the final project
 # Usecase
 Carris provides an API that delivers real-time data. The objectives are as follows:
 - Streaming: Develop a real-time reporting system that calculates the average velocity, distance, time, and the next stop for buses. This step should produce a .py file and a notebook documenting the process to achieve these results.
-- 
+
 - Airflow DAGs: Design and implement a batch dataflow pipeline. This will update information periodically, enabling the creation of fact and dimension tables to store historical measurements.
-- 
+
 - DBT Project: Build a data transformation pipeline. Once the sources in the database are updated, DBT will be used to create models based on the information provided by the batch dataflow.
 
   Model Schema:
