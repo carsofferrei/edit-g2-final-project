@@ -11,6 +11,10 @@ Carris provides an API that delivers real-time data. The objectives are as follo
 - 
 - DBT Project: Build a data transformation pipeline. Once the sources in the database are updated, DBT will be used to create models based on the information provided by the batch dataflow.
 
+  Model Schema:
+  ![er_schema](https://github.com/user-attachments/assets/15ad2cb5-1d08-47e3-8b36-08542e6ead3e)
+
+
 # All the data is stored on a GCP project.
 
 # Tools:
