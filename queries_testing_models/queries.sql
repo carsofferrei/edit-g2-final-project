@@ -70,15 +70,19 @@ WITH dim_routes AS (
     route_name,
     line_id,
     m.municipality_name,
-    stop.stop_id,
-    stop.stop_name
+    --stop.stop_id,
+    --stop.stop_name
   FROM `data-eng-dev-437916.data_eng_project_group2_marts.dim_routes`,
-  UNNEST(stops) AS stop,
+  --UNNEST(stops) AS stop,
   UNNEST(municipalities) AS m
 ),
 
 dim_dates AS (
-  SELECT *
+  SELECT 
+    date,
+    day_type,
+    period,
+    period_name
   FROM `data-eng-dev-437916.data_eng_project_group2_marts.dim_calendar_dates` d
 ),
 
@@ -95,7 +99,6 @@ SELECT DISTINCT
   r.line_id
   ,r.route_id
   ,r.route_name
-  ,d.day_type
   --,t.direction_id
   --,r.stop_id
   --,r.stop_name
@@ -105,9 +108,8 @@ SELECT DISTINCT
 FROM `data-eng-dev-437916.data_eng_project_group2_marts.fact_historical_trips` f
 INNER JOIN dim_routes r ON f.sk_route = r.sk_route
 INNER JOIN dim_dates d ON f.trip_date = d.date
---INNER JOIN dim_trips t ON f.sk_trip = t.sk_trip
-WHERE r.line_id = '1005' -- Em que day_type circula a linha 1005?
---WHERE r.stop_id= '80084' AND d.day_type = 3 -- day_type 3 = fim de semana | Rotas que passam na estação X ao fim de semana
---WHERE r.municipality_name = 'Loures' AND d.period_name = 'Verão'  -- Rotas que servem município X durante o período de Verão
---WHERE r.municipality_name = 'Sintra' AND t.direction_id = 1 -- Rotas que servem o município x com direction_id = 1 (Outbound)
---WHERE r.municipality_name = 'Lisboa' AND f.trip_date = '2024-01-22' -- Rotas que circularam na passada quarta-feira, no município X
+INNER JOIN dim_trips t ON f.sk_trip = t.sk_trip
+--WHERE r.line_id = '1005' -- Em que day_type circula a linha 1005?
+--WHERE r.municipality_name = 'Loures' AND d.period = 3  -- Rotas que servem município X durante o período de Verão
+--WHERE r.municipality_name = 'Lisboa' AND t.direction_id = 1 -- Rotas que servem o município x com direction_id = 1 (Outbound)
+WHERE r.municipality_name = 'Sintra' AND f.trip_date = '2025-01-22' -- Rotas que circularam na passada quarta-feira, no município X
