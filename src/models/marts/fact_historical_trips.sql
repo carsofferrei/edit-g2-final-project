@@ -38,14 +38,9 @@ SELECT DISTINCT
 , TRIPS.sk_route
 , STOP_TIMES.trip_id
 , COALESCE(HIST_STOP_TIMES.trip_date, dates.date) AS trip_date
-, STOP_TIMES.total_trip_distance
 , STOP_TIMES.total_trip_stops
+, STOP_TIMES.total_trip_distance
 , TRUNC(TIMESTAMP_DIFF(HIST_STOP_TIMES.end_trip, HIST_STOP_TIMES.start_trip, SECOND) / 60) AS total_trip_time
-, ROUND(CASE
-            WHEN TRUNC(TIMESTAMP_DIFF(HIST_STOP_TIMES.end_trip, HIST_STOP_TIMES.start_trip, SECOND) / 60) > 0 
-            THEN STOP_TIMES.total_trip_distance / TRUNC(TIMESTAMP_DIFF(end_trip, start_trip, SECOND) / 60)
-            ELSE NULL
-            END, 3) AS average_trip_speed
 FROM STOP_TIMES
 LEFT JOIN HIST_STOP_TIMES
 ON STOP_TIMES.trip_id = HIST_STOP_TIMES.trip_id
