@@ -113,3 +113,13 @@ INNER JOIN dim_trips t ON f.sk_trip = t.sk_trip
 --WHERE r.municipality_name = 'Loures' AND d.period = 3  -- Rotas que servem município X durante o período de Verão
 --WHERE r.municipality_name = 'Lisboa' AND t.direction_id = 1 -- Rotas que servem o município x com direction_id = 1 (Outbound)
 WHERE r.municipality_name = 'Sintra' AND f.trip_date = '2025-01-22' -- Rotas que circularam na passada quarta-feira, no município X
+
+
+-- Cálculo da velocidade média realizado pela viagem XXX, por dia:
+SELECT *
+, ROUND(CASE
+             WHEN total_trip_time > 0 THEN total_trip_distance / total_trip_time
+             ELSE NULL
+             END, 3) AS trip_avg_speed
+FROM `data-eng-dev-437916.data_eng_project_group2_marts.fact_historical_trips`
+WHERE sk_trip = '39cc2ea8575836663f810a6e9a0316ce'
